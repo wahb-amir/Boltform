@@ -90,7 +90,6 @@ export default function Navbar() {
 
           {/* Right side controls */}
           <div className="flex items-center gap-3">
-            {/* Cart Icon */}
             <motion.div whileTap={{ scale: 0.95 }} className="relative">
               <Link href="/cart">
                 <ShoppingCartIcon className="h-6 w-6 text-black dark:text-white" />

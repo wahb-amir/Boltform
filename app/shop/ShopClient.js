@@ -53,7 +53,7 @@ export default function ShopClient() {
   };
 
   return (
-    <section className="w-full min-h-screen px-4 md:px-12 pt-20 pb-32 bg-white dark:bg-[#111827] text-black dark:text-white transition-colors duration-500">
+    <section className="w-full min-h-screen px-4 md:px-12 pt-20 pb-32 bg-gray-100 dark:bg-[#111827] text-black dark:text-white transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-center tracking-tight">
           ⚡ Step Into the Drop
@@ -83,13 +83,28 @@ export default function ShopClient() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {filteredProducts.map((product) => (
-            <HoverImageCard key={product.id} product={product} />
-          ))}
-          {filteredProducts.length === 0 && (
-            <p className="text-center col-span-full text-gray-400 dark:text-gray-500 text-8xl">
-              No products found :(
-            </p>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <HoverImageCard key={product.id} product={product} />
+            ))
+          ) : (
+            Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-white dark:bg-[#1f2937] rounded-3xl overflow-hidden shadow-xl animate-pulse"
+              >
+                <div className="w-full h-64 flex items-center justify-center bg-gray-200 dark:bg-gray-700" />
+                <div className="p-6">
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-3 w-3/4" />
+                  <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded mb-2 w-1/3" />
+                  <div className="flex flex-wrap justify-center gap-1 mt-2">
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-16" />
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-12" />
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-14" />
+                  </div>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </div>

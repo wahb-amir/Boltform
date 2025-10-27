@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { useCart } from "./../context/CartContext";
+import { useCart } from "../context/CartContext";
 import {
   SunIcon,
   MoonIcon,
   ShoppingCartIcon,
   Bars3Icon,
   XMarkIcon,
+  TruckIcon,
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
@@ -25,7 +26,6 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navLinks, setNavLinks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   const { scrollY } = useScroll();
@@ -34,19 +34,13 @@ export default function Navbar() {
 
   useEffect(() => {
     setMounted(true);
-    setNavLinks(["Shop", "Men", "Women"]);
+    setNavLinks(["Shop", "Men", "Women", "Track Order"]);
   }, []);
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
   };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
-    }
-  };
   if (pathName === '/privacy-policy') return <></>;
   return (
     <>
@@ -79,10 +73,13 @@ export default function Navbar() {
                       ? "/shop?category=mens-shoes"
                       : link === "Women"
                         ? "/shop?category=womens-shoes"
-                        : `/${link.toLowerCase()}`
+                        : link === "Track Order"
+                          ? "/track"
+                          : `/${link.toLowerCase()}`
                   }
+                  className="flex items-center gap-1"
                 >
-                  {link}
+                  {link === "Track Order" && <TruckIcon className="h-4 w-4" />} {link}
                 </Link>
               </motion.div>
             ))}
@@ -124,8 +121,6 @@ export default function Navbar() {
                   </button>
                 </div>
               </div>
-
-
             ) : (
               <motion.div whileHover={{ scale: 1.05 }}>
                 <Link
@@ -186,15 +181,18 @@ export default function Navbar() {
                       ? "/shop?category=mens-shoes"
                       : link === "Women"
                         ? "/shop?category=womens-shoes"
-                        : `/${link.toLowerCase()}`
+                        : link === "Track Order"
+                          ? "/track"
+                          : `/${link.toLowerCase()}`
                   }
-                  className="text-2xl font-semibold text-gray-800 dark:text-gray-200"
+                  className="text-2xl font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1"
                   onClick={() => setMobileOpen(false)}
                 >
-                  {link}
+                  {link === "Track Order" && <TruckIcon className="h-5 w-5" />} {link}
                 </Link>
               </motion.div>
             ))}
+
             <motion.div whileTap={{ scale: 0.9 }}>
               <Link
                 href="/auth"

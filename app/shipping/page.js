@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import CheckoutButton from "../components/CheckoutButton";
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation";
-import ShippingTokenValidator from "@/components/ShippingTokenValidator";
+import ShippingTokenValidator from "../components/ShippingTokenValidator";
 
 const Page = () => {
   const router = useRouter();

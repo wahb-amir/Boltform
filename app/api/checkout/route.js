@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import {generateToken} from "@/Utilities/module";
+import {generateToken} from "../../Utilities/module";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 

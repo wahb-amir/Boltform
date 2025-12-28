@@ -1,6 +1,6 @@
 // app/success/page.js
 import { redirect } from "next/navigation";
-import { verifyToken } from "@/Utilities/module";
+import { verifyToken } from "../Utilities/module";
 import SuccessClient from "./SuccessClient";
 
 export const runtime = "edge";

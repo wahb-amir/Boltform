@@ -93,6 +93,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
+    cart.length = 0;
+    cart = [];
     setCart([]);
     syncCartToDB([]);
   };

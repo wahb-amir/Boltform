@@ -97,10 +97,8 @@ export default function TrackOrder() {
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <input value={orderId} onChange={(e) => setOrderId(e.target.value)} placeholder="Order ID" className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-neutral-800 bg-transparent outline-none" />
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email (optional)" className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-neutral-800 bg-transparent outline-none" />
             <div className="flex items-center gap-2">
               <button type="submit" className="flex-1 px-4 py-2 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-semibold shadow">{loading ? 'Checking…' : 'Track'}</button>
-              <button type="button" onClick={() => { setOrderId('ORD-00001'); setEmail('demo@bolt.test'); }} className="px-3 py-2 rounded-full border border-gray-200 dark:border-neutral-800 text-sm">Demo</button>
             </div>
             {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
           </form>
@@ -154,6 +152,7 @@ export default function TrackOrder() {
 }
 
 function CurrentOrderDetail({ order }) {
+  let activeIdx = order.events.length -1
   return (
     <div className="bg-white/70 dark:bg-[#070707]/70 border border-gray-200 dark:border-neutral-800 rounded-2xl p-6 shadow">
       <h3 className="font-semibold mb-3">Tracking Events for {order.orderId}</h3>
@@ -161,7 +160,7 @@ function CurrentOrderDetail({ order }) {
         {order.events.map((ev, idx) => (
           <div key={idx} className="flex items-start gap-3">
             <div className="mt-1">
-              <div className={`w-9 h-9 rounded-full grid place-items-center ${idx === 0 ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-neutral-900 text-gray-700'}`}>
+              <div className={`w-9 h-9 rounded-full grid place-items-center ${idx === activeIdx ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-neutral-900 text-gray-700'}`}>
                 <CheckIcon className="h-5 w-5" />
               </div>
             </div>
@@ -195,6 +194,6 @@ function mockResponse(oid = 'ORD-00001') {
       { title: 'Shipped from warehouse', time: fmt(new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)), location: 'Lahore, PK', note: 'Your order has left the warehouse.' },
       { title: 'In transit', time: fmt(new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)), location: 'Islamabad, PK', note: 'Your package is on the way.' },
       { title: 'Out for delivery', time: fmt(new Date(now.getTime() + 6 * 60 * 60 * 1000)), location: 'Rawalpindi, PK', note: 'Your package is out for delivery.' },
-        { title: 'Delivered', time: fmt(new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000)), location: 'Your Address', note: 'Package delivered successfully.' },]
-    };
+      { title: 'Delivered', time: fmt(new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000)), location: 'Your Address', note: 'Package delivered successfully.' },]
+  };
 }

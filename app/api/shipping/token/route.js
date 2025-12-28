@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {generateToken} from "@/Utilities/module";
+import {generateToken} from "../../../Utilities/module";
 
 export const GET = async (req) => {
   try {

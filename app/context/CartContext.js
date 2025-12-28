@@ -13,32 +13,53 @@ export const CartProvider = ({ children }) => {
 
   // Load cart from MongoDB or localStorage
   useEffect(() => {
+    let cancelled = false;
+
     const loadCart = async () => {
       if (status === "loading") return;
 
-      if (session?.user) {
-        try {
+      try {
+        if (session?.user) {
           const res = await axios.get("/api/save?type=cart");
-          setCart(res.data.items || []);
-        } catch (err) {
-          console.error("❌ Failed to load cart from DB:", err.message);
-          setCart([]);
+          if (!cancelled) setCart(res.data?.items || []);
+        } else {
+          try {
+            const saved = localStorage.getItem("cart");
+            const savedCart = saved ? JSON.parse(saved) : [];
+            if (!cancelled) setCart(savedCart);
+          } catch (err) {
+            console.error("❌ Failed to parse localStorage cart:", err.message);
+            if (!cancelled) setCart([]);
+          }
         }
-      } else {
-        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-        setCart(savedCart);
+      } catch (err) {
+        console.error(
+          "❌ Failed to load cart from DB or localStorage:",
+          err.message
+        );
+        if (!cancelled) setCart([]);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-
-      setLoading(false);
     };
 
     loadCart();
+
+    return () => {
+      cancelled = true;
+    };
   }, [session, status]);
 
   // Save to localStorage if not logged in
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     if (!session?.user) {
-      localStorage.setItem("cart", JSON.stringify(cart));
+      try {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } catch (err) {
+        console.error("❌ Failed to save cart to localStorage:", err.message);
+      }
     }
   }, [cart, session]);
 
@@ -93,8 +114,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
-    cart.length = 0;
-    cart = [];
+    // Correct: do not reassign const. Use setCart and sync.
     setCart([]);
     syncCartToDB([]);
   };

@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import CheckoutButton from "../components/CheckoutButton";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation";
 import ShippingTokenValidator from "@/components/ShippingTokenValidator";
 

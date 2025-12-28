@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/option";
+import authOptions from "../auth/[...nextauth]/option";
 import clientPromise from "../../lib/mongodb";
 
 export async function POST(req) {

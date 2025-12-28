@@ -84,7 +84,7 @@ export default function Hero() {
         {/* Right Shoe Image Section */}
         <div className="flex-1 flex flex-col items-center m-6">
           <div
-            className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[400px] md:h-[400px] rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl"
+            className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[400px] md:h-[400px] rounded-full flex items-center justify-center transition-all duration-500 "
             style={{ backgroundColor: active.hex }}
           >
             <div className="w-[240px] sm:w-[300px] md:w-[350px] max-w-full">

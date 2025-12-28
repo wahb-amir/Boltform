@@ -53,7 +53,6 @@ export default function Hero() {
       flex items-center transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-12 w-full">
-        {/* Left Text Content */}
         <div className="flex-1 space-y-6 text-center md:text-left">
           <p className="text-lg font-medium text-gray-800 dark:text-gray-400 tracking-wide">
             Engineered for Speed

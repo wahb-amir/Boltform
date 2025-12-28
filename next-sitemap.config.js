@@ -1,6 +1,6 @@
 // next-sitemap.config.js
 module.exports = {
-  siteUrl: "https://boltform.buttnetworks.com",
+  siteUrl: "https://boltform.wahb.space",
   generateRobotsTxt: true,
   sitemapSize: 7000,
   changefreq: "daily",

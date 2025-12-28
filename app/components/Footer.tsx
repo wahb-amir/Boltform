@@ -13,7 +13,7 @@ const Footer = () => {
           href="https://wahb.space"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200"
+          className="font-semibold text-blue-700 hover:text-blue-800 hover:underline transition-colors duration-200"
         >
           wahb.space
         </a>

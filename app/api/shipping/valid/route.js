@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { verifyToken } from "@/Utilities/module";
+import { verifyToken } from "../../../Utilities/module";
 
 export const GET = (req) => {
   try {

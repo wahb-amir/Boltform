@@ -22,15 +22,48 @@ export default function ShopClient() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch(
-        `https://dummyjson.com/products/category/${category}`
-      );
-      const data = await res.json();
-      setProducts(data.products);
+      let data;
+      try {
+        const res = await fetch(`https://dummyjson.com/products/category/${category}`);
+        data = await res.json();
+
+        if (!res.ok || !data?.products) {
+          let success = false;
+
+          for (let attempt = 1; attempt <= 3 && !success; attempt++) {
+            try {
+              // await new Promise((r) => setTimeout(r, attempt * 500));
+              const retryRes = await fetch(`https://dummyjson.com/products/category/${category}`);
+              const retryData = await retryRes.json();
+
+              if (retryRes.ok && retryData?.products) {
+                data = retryData;
+                success = true;
+                break;
+              }
+            } catch (err) {
+              if (attempt === 3) console.error("Fetch failed after 3 attempts:", err);
+            }
+          }
+
+          if (!data?.products) {
+            if (typeof window !== "undefined") {
+              window.alert("There seems to be a problem with your internet connection. Please check your connection and try again.");
+            }
+            data = { products: [] };
+          }
+        }
+
+        setProducts(data.products);
+      } catch (err) {
+        console.error("Initial fetch failed:", err);
+        setProducts([]);
+      }
     };
 
     fetchProducts();
   }, [category]);
+
 
   const filteredProducts = products.filter((product) =>
     product.title.toLowerCase().includes(search.toLowerCase())
@@ -64,11 +97,10 @@ export default function ShopClient() {
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`px-5 py-2 rounded-full font-medium border ${
-                category === cat
+              className={`px-5 py-2 rounded-full font-medium border ${category === cat
                   ? "bg-black text-white"
                   : "bg-white dark:bg-[#1f2937] border-gray-300"
-              }`}
+                }`}
             >
               {cat.replace("-", " ").toUpperCase()}
             </button>
@@ -128,9 +160,8 @@ function HoverImageCard({ product }) {
           alt={product.title}
           width={400}
           height={400}
-          className={`w-3/4 h-auto object-contain absolute transition-opacity duration-500 ease-in-out ${
-            hovered ? "opacity-0" : "opacity-100"
-          }`}
+          className={`w-3/4 h-auto object-contain absolute transition-opacity duration-500 ease-in-out ${hovered ? "opacity-0" : "opacity-100"
+            }`}
         />
         {product.images[1] && (
           <Image
@@ -138,9 +169,8 @@ function HoverImageCard({ product }) {
             alt={product.title + " alt"}
             width={400}
             height={400}
-            className={`w-3/4 h-auto object-contain absolute transition-opacity duration-500 ease-in-out ${
-              hovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={`w-3/4 h-auto object-contain absolute transition-opacity duration-500 ease-in-out ${hovered ? "opacity-100" : "opacity-0"
+              }`}
           />
         )}
       </div>
